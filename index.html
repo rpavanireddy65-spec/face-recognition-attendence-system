@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>FaceAttend | Face Recognition Attendance</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                👤
+            </div>
+
+            <div>
+                <h2>FaceAttend</h2>
+                <span>Smart Attendance</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <button
+                class="nav-item active"
+                data-section="dashboard">
+
+                🏠
+                <span>Dashboard</span>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-section="attendance">
+
+                📋
+                <span>Attendance</span>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-section="students">
+
+                👥
+                <span>Students</span>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-section="reports">
+
+                📊
+                <span>Reports</span>
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-section="settings">
+
+                ⚙️
+                <span>Settings</span>
+
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+
+                <span class="online-dot"></span>
+
+                System Online
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <header>
+
+            <div>
+
+                <h1 id="pageTitle">
+                    Attendance Dashboard
+                </h1>
+
+                <p id="pageSubtitle">
+                    Real-time face recognition attendance
+                </p>
+
+            </div>
+
+
+            <div class="date-box">
+
+                📅
+
+                <span id="currentDate">
+                </span>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboardSection"
+            class="page-section">
+
+
+            <!-- STATISTICS -->
+
+            <div class="stats">
+
+
+                <div class="stat-card purple">
+
+                    <div class="stat-icon">
+                        👥
+                    </div>
+
+                    <div>
+
+                        <p>Total Students</p>
+
+                        <h2 id="totalStudents">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card green">
+
+                    <div class="stat-icon">
+                        ✅
+                    </div>
+
+                    <div>
+
+                        <p>Present Today</p>
+
+                        <h2 id="presentStudents">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card red">
+
+                    <div class="stat-icon">
+                        ❌
+                    </div>
+
+                    <div>
+
+                        <p>Absent Today</p>
+
+                        <h2 id="absentStudents">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card blue">
+
+                    <div class="stat-icon">
+                        📊
+                    </div>
+
+                    <div>
+
+                        <p>Attendance</p>
+
+                        <h2 id="attendancePercentage">
+                            0%
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CAMERA + RESULT -->
+
+            <div class="content-grid">
+
+
+                <!-- CAMERA -->
+
+                <div class="camera-card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h2>
+                                📷 Live Face Recognition
+                            </h2>
+
+                            <p>
+                                Look at the camera to mark attendance
+                            </p>
+
+                        </div>
+
+
+                        <span class="live">
+
+                            <span></span>
+
+                            LIVE
+
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="camera-container">
+
+
+                        <video
+                            id="video"
+                            autoplay
+                            muted
+                            playsinline>
+                        </video>
+
+
+                        <div class="camera-overlay">
+
+                            <div class="face-frame">
+                            </div>
+
+                            <div class="scan-line">
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            id="cameraMessage"
+                            class="camera-message">
+
+                            Camera not started
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="camera-controls">
+
+
+                        <button
+                            id="startCamera"
+                            class="primary-btn">
+
+                            📷 Start Camera
+
+                        </button>
+
+
+                        <button
+                            id="stopCamera"
+                            class="secondary-btn">
+
+                            ⏹ Stop Camera
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RECOGNITION RESULT -->
+
+                <div class="result-card">
+
+                    <h2>
+                        Recognition Result
+                    </h2>
+
+
+                    <div
+                        id="recognitionIcon"
+                        class="recognition-icon">
+
+                        👤
+
+                    </div>
+
+
+                    <h3 id="studentName">
+                        Waiting...
+                    </h3>
+
+
+                    <p id="studentId">
+                        No student selected
+                    </p>
+
+
+
+                    <div class="confidence">
+
+
+                        <div class="confidence-header">
+
+                            <span>
+                                Confidence
+                            </span>
+
+                            <strong
+                                id="confidenceValue">
+
+                                0%
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            <div
+                                id="confidenceBar"
+                                class="progress-bar">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div
+                        id="attendanceStatus"
+                        class="status waiting">
+
+                        Waiting for recognition
+
+                    </div>
+
+
+
+                    <button
+                        id="markAttendance"
+                        class="attendance-btn">
+
+                        ✅ Mark Attendance
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TODAY ATTENDANCE -->
+
+            <div class="table-card">
+
+                <div class="table-header">
+
+                    <div>
+
+                        <h2>
+                            Today's Attendance
+                        </h2>
+
+                        <p>
+                            Real-time attendance records
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        id="clearAttendance"
+                        class="clear-btn">
+
+                        Clear Records
+
+                    </button>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Student
+                                </th>
+
+                                <th>
+                                    ID
+                                </th>
+
+                                <th>
+                                    Time
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="attendanceTable">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= ATTENDANCE PAGE ================= -->
+
+        <section
+            id="attendanceSection"
+            class="page-section hidden">
+
+            <div class="page-card">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <h2>
+                            📋 Attendance Records
+                        </h2>
+
+                        <p>
+                            View all attendance records
+                        </p>
+
+                    </div>
+
+                    <input
+                        type="text"
+                        id="attendanceSearch"
+                        placeholder="🔍 Search student...">
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Student
+                                </th>
+
+                                <th>
+                                    Student ID
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Time
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="fullAttendanceTable">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= STUDENTS PAGE ================= -->
+
+        <section
+            id="studentsSection"
+            class="page-section hidden">
+
+
+            <div class="page-card">
+
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <h2>
+                            👥 Student Management
+                        </h2>
+
+                        <p>
+                            Register students in the system
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="student-form">
+
+
+                    <input
+                        type="text"
+                        id="studentNameInput"
+                        placeholder="Student Name">
+
+
+                    <input
+                        type="text"
+                        id="studentIdInput"
+                        placeholder="Student ID">
+
+
+                    <input
+                        type="text"
+                        id="studentCourseInput"
+                        placeholder="Course">
+
+
+                    <button
+                        id="addStudent"
+                        class="primary-btn">
+
+                        ➕ Add Student
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="studentMessage"
+                    class="form-message">
+                </div>
+
+
+                <div class="student-grid"
+                    id="studentGrid">
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= REPORTS ================= -->
+
+        <section
+            id="reportsSection"
+            class="page-section hidden">
+
+
+            <div class="page-card">
+
+                <h2>
+                    📊 Attendance Reports
+                </h2>
+
+                <p class="section-description">
+                    Overall attendance statistics
+                </p>
+
+
+                <div class="report-grid">
+
+
+                    <div class="report-box">
+
+                        <span>
+                            👥
+                        </span>
+
+                        <h3 id="reportStudents">
+                            0
+                        </h3>
+
+                        <p>
+                            Registered Students
+                        </p>
+
+                    </div>
+
+
+                    <div class="report-box">
+
+                        <span>
+                            ✅
+                        </span>
+
+                        <h3 id="reportPresent">
+                            0
+                        </h3>
+
+                        <p>
+                            Present Today
+                        </p>
+
+                    </div>
+
+
+                    <div class="report-box">
+
+                        <span>
+                            ❌
+                        </span>
+
+                        <h3 id="reportAbsent">
+                            0
+                        </h3>
+
+                        <p>
+                            Absent Today
+                        </p>
+
+                    </div>
+
+
+                    <div class="report-box">
+
+                        <span>
+                            📈
+                        </span>
+
+                        <h3 id="reportPercentage">
+                            0%
+                        </h3>
+
+                        <p>
+                            Attendance Percentage
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="report-info">
+
+                    <h3>
+                        Attendance Summary
+                    </h3>
+
+                    <div class="big-progress">
+
+                        <div
+                            id="reportProgress"
+                            class="big-progress-bar">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= SETTINGS ================= -->
+
+        <section
+            id="settingsSection"
+            class="page-section hidden">
+
+
+            <div class="page-card">
+
+                <h2>
+                    ⚙️ Settings
+                </h2>
+
+                <p class="section-description">
+                    Configure your attendance system
+                </p>
+
+
+                <div class="settings-list">
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>
+                                Camera
+                            </h3>
+
+                            <p>
+                                Allow browser camera access
+                            </p>
+
+                        </div>
+
+                        <span class="setting-status">
+                            Enabled
+                        </span>
+
+                    </div>
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>
+                                Attendance Storage
+                            </h3>
+
+                            <p>
+                                Browser local storage
+                            </p>
+
+                        </div>
+
+                        <span class="setting-status">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>
+                                Recognition Mode
+                            </h3>
+
+                            <p>
+                                Face recognition ready
+                            </p>
+
+                        </div>
+
+                        <span class="setting-status">
+                            Ready
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <button
+                    id="resetSystem"
+                    class="danger-btn">
+
+                    ⚠️ Reset All Data
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
